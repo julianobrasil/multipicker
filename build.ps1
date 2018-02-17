@@ -2,7 +2,7 @@
 Remove-Item -r -fo build,dist
 
 # run angular compiler
-node_modules/.bin/ngc -p src/tsconfig-build.json
-node_modules/.bin/rollup build/multi-datepicker.js -o dist/multi-datepicker.js -format=es -external="@angular/core"
+node_modules/.bin/ngc -p src/lib/tsconfig-build.json
+node_modules/.bin/rollup .ng_build/es2015/multi-datepicker.js -o ./dist/out-tsc/multi-datepicker.js -format=es -external="@angular/core"
 
-Copy-Item src/package.json -Destination dist/package.json
+Copy-Item src/lib/package.json -Destination dist/out-tsc/package.json
