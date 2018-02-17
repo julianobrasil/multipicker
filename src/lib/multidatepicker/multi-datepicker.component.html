@@ -1,0 +1,25 @@
+<multidatepicker-year-picker *ngIf="mode === 'YEAR'"
+                             [touchUi]="touchUi"
+                             [label]="label"
+                             [formControl]="_yearPickerCtrl"
+                             [max]="max"
+                             [min]="min">
+</multidatepicker-year-picker>
+
+<multidatepicker-month-picker *ngIf="_showMonthPicker"
+                              [touchUi]="touchUi"
+                              [label]="label"
+                              [formControl]="_monthPickerCtrl"
+                              [max]="max"
+                              [min]="min"
+                              [mode]="mode">
+</multidatepicker-month-picker>
+
+<multidatepicker-regular-datepicker *ngIf="_showRegularDatepicker"
+                                    [touchUi]="touchUi"
+                                    [label]="label"
+                                    [formControl]="_regularPickerCtrl"
+                                    [max]="max"
+                                    [min]="min"
+                                    [mode]="mode">
+</multidatepicker-regular-datepicker>
