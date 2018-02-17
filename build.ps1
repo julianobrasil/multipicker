@@ -1,5 +1,5 @@
 # clean previous distribution
-Remove-Item -r -fo build,dist
+Remove-Item -r -fo .ng_build,dist
 
 # run angular compiler
 node_modules/.bin/ngc -p src/lib/tsconfig-build.json
