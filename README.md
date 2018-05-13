@@ -14,11 +14,12 @@ This datepicker is built upon `@material2/datepicker`.
 
 `npm i @julianobrasil/multidatepicker --save`
 
-In `@NgModule` where it will be used (usually `app.module.ts` for an application wide installation):
+In the `@NgModule` where it will be used (usually `app.module.ts` for an application wide installation):
 
 ```ts
-...
   import {MultiDatepickerModule} from '@julianobrasil/multidatepicker';
+  
+  ...
 
   imports: [...,MultiDatepickerModule,...]
 ```
