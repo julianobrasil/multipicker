@@ -1,0 +1,17 @@
+<mat-form-field>
+  <mat-label>{{label}}</mat-label>
+  <input matInput
+         [matDatepicker]="datepicker"
+         [max]="_max"
+         [min]="_min"
+         [formControl]="_inputCtrl"
+         [matDatepickerFilter]="_customFilter"
+         (click)="_openDatepickerOnClick(datepicker)"
+         (focus)="_openDatepickerOnFocus(datepicker)"
+         (dateChange)="_dateChangeHandler($event.value)"
+         (dateInput)="_dateChangeHandler($event.value)"
+         readonly>
+</mat-form-field>
+<mat-datepicker #datepicker
+                [touchUi]="touchUi"
+                (closed)="_takeFocusAway()"></mat-datepicker>

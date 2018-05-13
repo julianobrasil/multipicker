@@ -1,0 +1,7 @@
+{
+  "wrap_line_length": 100,
+  "html": {
+    "wrap_attributes": "force-aligned",
+    "indent_size": 2
+  }
+}
