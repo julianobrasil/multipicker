@@ -1,0 +1,31 @@
+<app-year-picker *ngIf="mode === 'YEAR'"
+                 [touchUi]="touchUi"
+                 [label]="label"
+                 [formControl]="_yearPickerCtrl"
+                 [max]="max"
+                 [min]="min">
+</app-year-picker>
+
+<app-month-picker *ngIf="_showMonthPicker"
+                  [touchUi]="touchUi"
+                  [label]="label"
+                  [formControl]="_monthPickerCtrl"
+                  [max]="max"
+                  [min]="min"
+                  [mode]="mode">
+</app-month-picker>
+
+<app-regular-datepicker *ngIf="_showRegularDatepicker"
+                        [touchUi]="touchUi"
+                        [label]="label"
+                        [formControl]="_regularPickerCtrl"
+                        [max]="max"
+                        [min]="min"
+                        [mode]="mode">
+</app-regular-datepicker>
+
+<!-- This component aims to set focus away of the calendar after choosing a date
+otherwise the calendar will open again on focus after the user switch windows forth
+and back -->
+<input class="jp-custom-datepiker-element-to-focus"
+       #elementToFocus>

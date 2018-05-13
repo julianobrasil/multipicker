@@ -1,0 +1,18 @@
+{
+    "name": "@julianobrasil/multidatepicker",
+    "version": "0.0.2",
+    "peerDependencies": {
+      "@angular/animations": "^6.0.1",
+      "@angular/common": "^6.0.1",
+      "@angular/core": "^6.0.1",
+      "@angular/forms": "6.0.1",
+
+      "@angular/cdk": "^6.0.1",
+      "@angular/material": "^6.0.1",
+      "@angular/material-moment-adapter": "^6.0.1",
+
+      "rxjs": "^6.0.1",
+
+      "moment": "^2.22.1"
+    }
+}
