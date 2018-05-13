@@ -1,6 +1,6 @@
 # Important Note
 
-This is a personal project just to use internal to our organization (and currently to try out
+This is a personal project just for internal use at work (I used it to try out
 `@angular/cli`'s `ng generate library`).
 
 If you want more info on how to build an angular library with @angular/cli, take a look at this [great
