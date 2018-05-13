@@ -1,27 +1,28 @@
+# Important Note
+
+This is a personal project just to use internal to our organization (and currently to try out
+`@angular/cli`'s `ng generate library`).
+
+If you want more info on how to build an angular library with @angular/cli, take a look at this [great
+article](https://medium.com/@tomsu/how-to-build-a-library-for-angular-apps-4f9b38b0ed11).
+
 # MultiDatepicker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+This datepicker is built upon `@material2/datepicker`.
 
-## Development server
+## Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+`npm i @julianobrasil/multidatepicker --save`
 
-## Code scaffolding
+In `@NgModule` where it will be used (usually `app.module.ts` for an application wide installation):
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```ts
+...
+  import {MultiDatepickerModule} from '@julianobrasil/multidatepicker';
 
-## Build
+  imports: [...,MultiDatepickerModule,...]
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+To see the possibilities, checkout this stackblitz demo: https://stackblitz.com/edit/angular-mulitdate-picker-demo
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+So you can mess with the code (it's not so hard)
