@@ -1,17 +1,11 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-.year-picker,
-.month-picker {
-    .mat-calendar-period-button {
-        pointer-events: none;
-    }
-    .mat-calendar-arrow {
-        display: none;
-    }
-}
-
-.jp-custom-datepiker-element-to-focus {
-    position: fixed;
-    top: -1000px;
-    left: -1000px;
+.jp-year-picker,
+.jp-month-picker {
+  .mat-calendar-period-button {
+    pointer-events: none;
+  }
+  .mat-calendar-arrow {
+    display: none;
+  }
 }

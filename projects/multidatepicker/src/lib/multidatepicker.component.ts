@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import {DOCUMENT} from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -12,14 +12,11 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {MatDatepicker} from '@angular/material';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'jp-multi-datepicker',
@@ -34,10 +31,11 @@ import { takeUntil } from 'rxjs/operators';
     },
   ],
 })
-export class MultiDatepickerComponent
-  implements ControlValueAccessor, AfterViewInit, OnDestroy {
-  @Input()
-  mode: 'YEAR' | 'MONTH' | 'MONTHYEAR' | 'WEEK' | 'SEMESTER' | '' | null;
+export class MultiDatepickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
+  /** custom form-field class */
+  @Input() jpCustomFormFieldClass = '';
+
+  @Input() mode: 'YEAR' | 'MONTH' | 'MONTHYEAR' | 'WEEK' | 'SEMESTER' | '' | null;
 
   @Input() label = '';
 
@@ -58,8 +56,6 @@ export class MultiDatepickerComponent
   }
 
   @Output() dateChange: EventEmitter<Date> = new EventEmitter<Date>();
-
-  @ViewChild('elementToFocus') _elementToFocus: ElementRef;
 
   _yearPickerCtrl: FormControl = new FormControl();
   _monthPickerCtrl: FormControl = new FormControl();
@@ -84,21 +80,6 @@ export class MultiDatepickerComponent
       default:
         this._subscribeToChanges(this._regularPickerCtrl);
     }
-
-    // look for the focus element. if we have more than
-    // one instance of this focus element, we should get
-    // rid of this one. We need only one of them in the
-    // dom to set focus away.
-    setTimeout(() => {
-      const $els = this._document.querySelectorAll(
-        '.jp-custom-datepiker-element-to-focus',
-      );
-      if ($els.length > 1) {
-        this._elementToFocus.nativeElement.parentNode.removeChild(
-          this._elementToFocus.nativeElement,
-        );
-      }
-    }, Math.floor(Math.random() * 1000 + 100));
   }
 
   ngOnDestroy() {
@@ -128,24 +109,26 @@ export class MultiDatepickerComponent
     this._disabled = isDisabled;
     switch (this.mode) {
       case 'YEAR':
-        isDisabled
-          ? this._yearPickerCtrl.disable()
-          : this._yearPickerCtrl.enable();
+        isDisabled ? this._yearPickerCtrl.disable() : this._yearPickerCtrl.enable();
         break;
 
       case 'MONTH':
       case 'SEMESTER':
       case 'MONTHYEAR':
-        isDisabled
-          ? this._monthPickerCtrl.disable()
-          : this._monthPickerCtrl.enable();
+        isDisabled ? this._monthPickerCtrl.disable() : this._monthPickerCtrl.enable();
         break;
 
       default:
-        isDisabled
-          ? this._regularPickerCtrl.disable()
-          : this._regularPickerCtrl.enable();
+        isDisabled ? this._regularPickerCtrl.disable() : this._regularPickerCtrl.enable();
     }
+  }
+
+  _takeFocusAway($datepicker: MatDatepicker<any>) {
+    $datepicker.disabled = true;
+    setTimeout(() => {
+      $datepicker._datepickerInput['_elementRef'].nativeElement.blur();
+      $datepicker.disabled = false;
+    }, 600);
   }
 
   private _writeValue(date: any): any {
@@ -156,7 +139,7 @@ export class MultiDatepickerComponent
     switch (this.mode) {
       case 'YEAR':
         if (date instanceof Date) {
-          this._yearPickerCtrl.setValue(date, { emitEvent: false });
+          this._yearPickerCtrl.setValue(date, {emitEvent: false});
         }
         break;
 
@@ -164,13 +147,13 @@ export class MultiDatepickerComponent
       case 'MONTH':
       case 'SEMESTER':
         if (date instanceof Date) {
-          this._monthPickerCtrl.setValue(date, { emitEvent: false });
+          this._monthPickerCtrl.setValue(date, {emitEvent: false});
         }
         break;
 
       default:
         if (date instanceof Date) {
-          this._regularPickerCtrl.setValue(date);
+          this._regularPickerCtrl.setValue(date, {emitEvent: false});
         }
     }
   }
@@ -189,11 +172,7 @@ export class MultiDatepickerComponent
   }
 
   get _showMonthPicker(): boolean {
-    return (
-      this.mode === 'MONTH' ||
-      this.mode === 'MONTHYEAR' ||
-      this.mode === 'SEMESTER'
-    );
+    return this.mode === 'MONTH' || this.mode === 'MONTHYEAR' || this.mode === 'SEMESTER';
   }
 
   get _showRegularDatepicker(): boolean {

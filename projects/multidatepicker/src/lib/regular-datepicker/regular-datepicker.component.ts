@@ -1,8 +1,24 @@
-import {DOCUMENT} from '@angular/common';
-import {Component, forwardRef, Inject, Input, ViewChild} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDatepicker} from '@angular/material';
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {
+  AfterViewInit,
+  Component,
+  forwardRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatDatepicker,
+} from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
+import { MultiDatepickerComponent } from '../multidatepicker.component';
 
 import * as moment_ from 'moment';
 const moment = moment_;
@@ -25,9 +41,13 @@ export const YEAR_MODE_FORMATS = {
   templateUrl: './regular-datepicker.component.html',
   styleUrls: [],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'pt-br'},
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: YEAR_MODE_FORMATS},
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: YEAR_MODE_FORMATS },
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => RegularDatepickerComponent),
@@ -35,7 +55,11 @@ export const YEAR_MODE_FORMATS = {
     },
   ],
 })
-export class RegularDatepickerComponent implements ControlValueAccessor {
+export class RegularDatepickerComponent
+  implements ControlValueAccessor, AfterViewInit {
+  /** custom form-field class */
+  @Input() jpCustomFormFieldClass = '';
+
   /** Component label */
   @Input() label = '';
 
@@ -87,13 +111,20 @@ export class RegularDatepickerComponent implements ControlValueAccessor {
   // Function to call when the input is touched (when a star is clicked).
   onTouched = () => {};
 
-  constructor(@Inject(DOCUMENT) private _document: any) {}
+  /** send the focus away from the input so it doesn't open again */
+  _takeFocusAway = (datepicker: MatDatepicker<Moment>) => {};
+
+  constructor(private parent: MultiDatepickerComponent) {}
+
+  ngAfterViewInit() {
+    this._takeFocusAway = this.parent._takeFocusAway;
+  }
 
   writeValue(date: Date): void {
     if (date) {
       const momentDate = moment(date);
       if (momentDate.isValid()) {
-        this._inputCtrl.setValue(moment(date), {emitEvent: false});
+        this._inputCtrl.setValue(moment(date), { emitEvent: false });
       }
     }
   }
@@ -106,7 +137,9 @@ export class RegularDatepickerComponent implements ControlValueAccessor {
 
   // Allows Angular to disable the input.
   setDisabledState(isDisabled: boolean): void {
-    isDisabled ? (this._picker.disabled = true) : (this._picker.disabled = false);
+    isDisabled
+      ? (this._picker.disabled = true)
+      : (this._picker.disabled = false);
 
     isDisabled ? this._inputCtrl.disable() : this._inputCtrl.enable();
   }
@@ -116,29 +149,11 @@ export class RegularDatepickerComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  _takeFocusAway() {
-    setTimeout(() => {
-      const html = this._document.querySelector('.jp-custom-datepiker-element-to-focus');
-      if (html['focus']) {
-        html['focus']();
-      }
-    }, 600);
-  }
-
   _openDatepickerOnClick(datepicker: MatDatepicker<Moment>) {
     if (!datepicker.opened) {
       datepicker.open();
       this.onTouched();
     }
-  }
-
-  _openDatepickerOnFocus(datepicker: MatDatepicker<Moment>) {
-    setTimeout(() => {
-      if (!datepicker.opened) {
-        datepicker.open();
-        this.onTouched();
-      }
-    });
   }
 
   private _setupFilter() {

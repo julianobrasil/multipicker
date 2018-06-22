@@ -1,18 +1,20 @@
-<mat-form-field>
+<mat-form-field appearance="standard"
+                [ngClass]="jpCustomFormFieldClass">
   <mat-label>{{label}}</mat-label>
   <input matInput
+         (click)="_openDatepickerOnClick(datepicker)"
+         (keydown.arrowdown)="_openDatepickerOnClick(datepicker)"
+         (keydown.enter)="_openDatepickerOnClick(datepicker)"
+         [formControl]="_inputCtrl"
          [matDatepicker]="datepicker"
          [max]="_max"
          [min]="_min"
-         [formControl]="_inputCtrl"
-         (click)="_openDatepickerOnClick(datepicker)"
-         (focus)="_openDatepickerOnFocus(datepicker)"
          readonly>
 </mat-form-field>
 <mat-datepicker #datepicker
-                startView="multi-year"
-                [touchUi]="touchUi"
+                (closed)="_takeFocusAway(datepicker)"
                 (yearSelected)="_yearSelectedHandler($event,datepicker)"
-                panelClass="year-picker"
-                (closed)="_takeFocusAway()">
+                [touchUi]="touchUi"
+                panelClass="jp-year-picker"
+                startView="multi-year">
 </mat-datepicker>

@@ -6,9 +6,7 @@ import { MultidatepickerModule } from 'multidatepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -16,6 +14,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MultidatepickerModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

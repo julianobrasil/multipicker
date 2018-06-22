@@ -1,17 +1,20 @@
-<mat-form-field>
+<mat-form-field appearance="standard"
+                [ngClass]="jpCustomFormFieldClass">
   <mat-label>{{label}}</mat-label>
   <input matInput
+         (click)="_openDatepickerOnClick(datepicker)"
+         (dateChange)="_dateChangeHandler($event.value)"
+         (dateInput)="_dateChangeHandler($event.value)"
+         (keydown.arrowdown)="_openDatepickerOnClick(datepicker)"
+         (keydown.enter)="_openDatepickerOnClick(datepicker)"
+         [formControl]="_inputCtrl"
+         [matDatepickerFilter]="_customFilter"
          [matDatepicker]="datepicker"
          [max]="_max"
          [min]="_min"
-         [formControl]="_inputCtrl"
-         [matDatepickerFilter]="_customFilter"
-         (click)="_openDatepickerOnClick(datepicker)"
-         (focus)="_openDatepickerOnFocus(datepicker)"
-         (dateChange)="_dateChangeHandler($event.value)"
-         (dateInput)="_dateChangeHandler($event.value)"
          readonly>
 </mat-form-field>
 <mat-datepicker #datepicker
-                [touchUi]="touchUi"
-                (closed)="_takeFocusAway()"></mat-datepicker>
+                (closed)="_takeFocusAway(datepicker)"
+                [touchUi]="touchUi">
+</mat-datepicker>
