@@ -29,6 +29,7 @@
         "@angular/material-moment-adapter": "^6.3.0",
 
         "rxjs": "^6.2.1",
+        "@ncstate/sat-popover": "^2.1.1",
 
         "moment": "^2.22.2"
     }

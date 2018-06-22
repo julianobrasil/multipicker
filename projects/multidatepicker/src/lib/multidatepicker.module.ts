@@ -6,10 +6,13 @@ import {
   MatButtonModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatDividerModule,
   MatFormFieldModule,
   MatInputModule,
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+import { SatPopoverModule } from '@ncstate/sat-popover';
 
 import { MultiDatepickerComponent } from './multidatepicker.component';
 import { InfoDialogComponent } from './month-picker/dialog/info-dialog/info-dialog.component';
@@ -28,8 +31,11 @@ import { YearPickerComponent } from './year-picker/year-picker.component';
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
+
+    SatPopoverModule,
 
     MatMomentDateModule,
   ],

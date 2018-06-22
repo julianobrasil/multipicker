@@ -7,6 +7,7 @@
          (keydown.enter)="_openDatepickerOnClick(datepicker)"
          [formControl]="_inputCtrl"
          [matDatepickerFilter]="_customFilter"
+         [satPopoverAnchorFor]="popover"
          [matDatepicker]="datepicker"
          [max]="_max"
          [min]="_min"
@@ -14,8 +15,26 @@
 </mat-form-field>
 <mat-datepicker #datepicker
                 (closed)="_takeFocusAway(datepicker)"
+                startView="multi-year"
+                [touchUi]="touchUi"
+                (yearSelected)="_yearSelectedHandler($event,datepicker,popover)"
                 (monthSelected)="_monthSelectedHandler($event,datepicker)"
                 [touchUi]="touchUi"
                 panelClass="jp-month-picker"
                 startView="multi-year">
 </mat-datepicker>
+<sat-popover #popover
+             hasBackdrop
+             horizontalAlign="start"
+             verticalAlign="below">
+  <div class="mat-elevation-z8 mp-semester-wrapper">
+    <div class="mp-semester-title">{{_selectedYear}}</div>
+    <mat-divider></mat-divider>
+    <div class="mp-semester-body">
+      <div (click)="_semesterChosen(popover,1)"
+           class="mat-calendar-body-cell">{{semesterLabel?.firstSemester ? semesterLabel.firstSemester : '1o Semestre'}}</div>
+      <div (click)="_semesterChosen(popover,2)"
+           class="mat-calendar-body-cell">{{semesterLabel?.secondSemester ? semesterLabel.secondSemester : '2o Semestre'}}</div>
+    </div>
+  </div>
+</sat-popover>

@@ -4,6 +4,7 @@ import {
   forwardRef,
   Input,
   ViewChild,
+  Inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -17,7 +18,10 @@ import {
   MatDatepicker,
   MatDialog,
 } from '@angular/material';
+import {DOCUMENT} from '@angular/common';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
+import { SatPopover } from '@ncstate/sat-popover';
 
 import { MultiDatepickerComponent } from '../multidatepicker.component';
 import { InfoDialogComponent } from './dialog/info-dialog/info-dialog.component';
@@ -38,10 +42,15 @@ export const MONTH_MODE_FORMATS = {
   },
 };
 
+export interface SemesterLabel {
+  firstSemester: string;
+  secondSemester: string;
+}
+
 @Component({
   selector: 'app-month-picker',
   templateUrl: './month-picker.component.html',
-  styleUrls: [],
+  styleUrls: ['./month-picker.component.scss'],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     {
@@ -105,7 +114,18 @@ export class MonthPickerComponent
 
   @Input() touchUi = false;
 
+  private _semesterLabel: SemesterLabel;
+  @Input()
+  get semesterLabel(): SemesterLabel {
+    return this._semesterLabel;
+  }
+  set semesterLabel(sl: SemesterLabel) {
+    this._semesterLabel = sl;
+  }
+
   _customFilter: (d: Moment) => boolean;
+
+  _selectedYear: number;
 
   @ViewChild(MatDatepicker) _picker: MatDatepicker<Moment>;
 
@@ -124,6 +144,7 @@ export class MonthPickerComponent
   _takeFocusAway = (datepicker: MatDatepicker<Moment>) => {};
 
   constructor(
+    @Inject(DOCUMENT) private _document: any,
     private dialog: MatDialog,
     private parent: MultiDatepickerComponent,
   ) {}
@@ -163,12 +184,27 @@ export class MonthPickerComponent
   _yearSelectedHandler(
     chosenMonthDate: Moment,
     datepicker: MatDatepicker<Moment>,
+    popover: SatPopover,
   ) {
+
     if (!this._isYearEnabled(chosenMonthDate.year())) {
       datepicker.close();
 
       // wait for some time before enabling the calendar again
       setTimeout(() => (datepicker.disabled = false), 600);
+    }
+
+    if(this.mode === 'SEMESTER') {
+      datepicker.disabled = true;
+
+      datepicker.close();
+
+      // wait for some time before enabling the calendar again
+      setTimeout(() => (datepicker.disabled = false), 600);
+
+      this._selectedYear = chosenMonthDate.year();
+
+      popover.open();
     }
   }
 
@@ -213,6 +249,11 @@ export class MonthPickerComponent
     setTimeout(() => {
       datepicker.disabled = false;
     }, 700);
+  }
+
+  _semesterChosen(popover: SatPopover, semester: number) {
+    console.log(semester);
+    popover.close();
   }
 
   /** Whether the given year is enabled. */
